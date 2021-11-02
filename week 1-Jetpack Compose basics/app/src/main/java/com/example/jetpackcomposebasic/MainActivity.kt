@@ -54,12 +54,6 @@ fun Greeting(name: String) {
 
             }
         }
-//        Column(modifier = Modifier
-//            .fillMaxWidth()
-//            .padding(24.dp)){
-//            Text(text = "Hello.")
-//            Text(text = name)
-//        }
     }
 }
 
