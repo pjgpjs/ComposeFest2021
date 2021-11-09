@@ -3,6 +3,9 @@ package com.example.jetpackcomposebasic
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -35,16 +38,16 @@ fun MyApp() {
         mutableStateOf(true)
     }
     if (shouldShowOnboarding) {
-        OnboardScreen(onContinueClicked = {shouldShowOnboarding = false})
+        OnboardScreen(onContinueClicked = { shouldShowOnboarding = false })
     } else {
         Greetings()
     }
 }
 
 @Composable
-fun Greetings(names: List<String> = List(1000){"$it"}){
-    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)){
-        items(items = names){name->
+fun Greetings(names: List<String> = List(1000) { "$it" }) {
+    LazyColumn(modifier = Modifier.padding(vertical = 4.dp)) {
+        items(items = names) { name ->
             Greeting(name = name)
         }
     }
@@ -60,9 +63,18 @@ fun Greetings(names: List<String> = List(1000){"$it"}){
 
 @Composable
 fun Greeting(name: String) {
-    val expanded = remember { mutableStateOf(false) }
+//    val expanded = remember { mutableStateOf(false) }
+    var expanded by rememberSaveable { mutableStateOf(false) }
 
-    val extraPadding = if (expanded.value) 48.dp else 0.dp
+//    val extraPadding = if (expanded.value) 48.dp else 0.dp
+    val extraPadding by animateDpAsState(
+        if (expanded) 48.dp else 0.dp,
+        animationSpec = spring(
+            dampingRatio = Spring.DampingRatioMediumBouncy,
+            stiffness = Spring.StiffnessLow
+        )
+    )
+
 
     Surface(
         color = MaterialTheme.colors.primary,
@@ -72,13 +84,13 @@ fun Greeting(name: String) {
             Column(
                 modifier = Modifier
                     .weight(1f)
-                    .padding(bottom = extraPadding)
+                    .padding(bottom = extraPadding.coerceAtLeast(0.dp))
             ) {
                 Text(text = "Hello. ")
                 Text(text = name)
             }
-            OutlinedButton(onClick = { expanded.value = !expanded.value }) {
-                Text(if (expanded.value) "Show less" else "Show more")
+            OutlinedButton(onClick = { expanded = !expanded }) {
+                Text(if (expanded) "Show less" else "Show more")
 
             }
         }
@@ -105,7 +117,7 @@ fun OnboardScreen(onContinueClicked: () -> Unit) {
             Text("Welcome to the Basics Codelab!")
             Button(
                 modifier = Modifier.padding(vertical = 24.dp),
-                onClick = {onContinueClicked() }
+                onClick = { onContinueClicked() }
             ) {
                 Text(text = "Continue")
             }
