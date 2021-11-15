@@ -4,12 +4,10 @@ import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
-import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.*
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.*
@@ -22,6 +20,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil.compose.rememberImagePainter
 import com.example.layoutsinjetpackcompose.ui.theme.LayoutsInJetpackComposeTheme
 
 class MainActivity : ComponentActivity() {
@@ -31,10 +30,54 @@ class MainActivity : ComponentActivity() {
             LayoutsInJetpackComposeTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(color = MaterialTheme.colors.background) {
-                    PhotographerCard()
+//                    PhotographerCard()
+                    ImageList()
                 }
             }
         }
+    }
+}
+
+
+@Composable
+fun ImageList() {
+    val listSize = 100
+    val scrollState = rememberLazyListState()
+
+    val coroutineScope = rememberCoroutineScope()
+
+    LazyColumn(state = scrollState) {
+        items(100) {
+            ImageListItem(index = it)
+        }
+    }
+}
+
+@Composable
+fun ImageListItem(index: Int) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { }) {
+
+        Image(
+            painter = rememberImagePainter(
+                data = "https://developer.android.com/images/brand/Android_Robot.png"
+            ),
+            contentDescription = "Android Logo",
+            modifier = Modifier.size(50.dp)
+        )
+        Spacer(Modifier.width(10.dp))
+        Text("Item #$index", style = MaterialTheme.typography.subtitle1)
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+fun SimpleListPreview() {
+    LayoutsInJetpackComposeTheme {
+        ImageList()
     }
 }
 
