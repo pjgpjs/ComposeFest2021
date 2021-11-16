@@ -50,8 +50,12 @@ private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
 //    val items :List<TodoItem> by todoViewModel.todoItems.observeAsState(initial = listOf())
     TodoScreen(
         items = todoViewModel.todoItems,
-        onAddItem = {todoViewModel.addItem(it)},
-        onRemoveItem = {todoViewModel.removeItem(it)}
+        currentlyEditing = todoViewModel.currentEditItem,
+        onAddItem = todoViewModel::addItem,
+        onRemoveItem = todoViewModel::removeItem,
+        onStartEdit = todoViewModel::onEditItemSelected,
+        onEditItemChange = todoViewModel::onEditItemChange,
+        onEditDone = todoViewModel::onEditDone
     )
 }
 
@@ -63,7 +67,12 @@ fun TodoScreenPreview(){
         TodoScreen(
             items = items,
             onAddItem = {},
-            onRemoveItem = {}
+            onRemoveItem = {},
+            onStartEdit = {},
+            currentlyEditing = null,
+            onEditDone = {},
+            onEditItemChange = {}
+
         )
     }
 }

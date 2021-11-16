@@ -41,13 +41,12 @@ class TodoViewModel : ViewModel() {
 
     fun removeItem(item: TodoItem) {
         todoItems.remove(item)
-
+        onEditDone() // don't keep the editor open when removing items
     }
 
     // event: onEditItemSelected
     fun onEditItemSelected(item: TodoItem) {
         currentEditPosition = todoItems.indexOf(item)
-        onEditDone() // don't keep the editor open when removing items
     }
 
     // event: onEditDone
