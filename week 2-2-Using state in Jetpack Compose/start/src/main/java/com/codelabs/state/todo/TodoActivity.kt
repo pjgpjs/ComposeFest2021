@@ -55,7 +55,8 @@ private fun TodoActivityScreen(todoViewModel: TodoViewModel) {
         onRemoveItem = todoViewModel::removeItem,
         onStartEdit = todoViewModel::onEditItemSelected,
         onEditItemChange = todoViewModel::onEditItemChange,
-        onEditDone = todoViewModel::onEditDone
+        onEditDone = todoViewModel::onEditDone,
+        iconTint = todoViewModel::getTint
     )
 }
 
@@ -71,7 +72,8 @@ fun TodoScreenPreview(){
             onStartEdit = {},
             currentlyEditing = null,
             onEditDone = {},
-            onEditItemChange = {}
+            onEditItemChange = {},
+            iconTint = { randomTint()}
 
         )
     }

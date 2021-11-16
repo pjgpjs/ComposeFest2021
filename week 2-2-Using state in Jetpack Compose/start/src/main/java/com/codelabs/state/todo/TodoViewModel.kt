@@ -16,13 +16,23 @@
 
 package com.codelabs.state.todo
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
+import androidx.compose.runtime.*
 import androidx.lifecycle.ViewModel
+import java.util.*
 
 class TodoViewModel : ViewModel() {
+    var tints = mutableStateMapOf<UUID,Float>()
+
+    fun getTint(todoItem: TodoItem):Float{
+        var tint = tints[todoItem.id]
+        if(tint==null){
+          tint = randomTint()
+            tints[todoItem.id] = tint
+        }
+        return tint
+    }
+
+
 
     // private state
     private var currentEditPosition by mutableStateOf(-1)

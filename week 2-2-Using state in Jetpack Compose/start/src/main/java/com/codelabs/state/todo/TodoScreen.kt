@@ -49,7 +49,8 @@ fun TodoScreen(
     onRemoveItem: (TodoItem) -> Unit,
     onStartEdit: (TodoItem) -> Unit,
     onEditItemChange: (TodoItem) -> Unit,
-    onEditDone: () -> Unit
+    onEditDone: () -> Unit,
+    iconTint :(TodoItem)->Float
 ) {
     Column {
         val enableTopSection = currentlyEditing == null
@@ -84,11 +85,12 @@ fun TodoScreen(
                     )
                 }
                 else{
-
+                    var alpha = iconTint(todo)
                     TodoRow(
                         todo = todo,
                         {onStartEdit(it)},
-                        modifier = Modifier.fillParentMaxWidth()
+                        modifier = Modifier.fillParentMaxWidth(),
+                        iconAlpha = alpha
                     )
                 }
             }
@@ -118,7 +120,8 @@ fun TodoRow(
     todo: TodoItem,
     onItemClicked: (TodoItem) -> Unit,
     modifier: Modifier = Modifier,
-    iconAlpha: Float = remember(todo.id) { randomTint() }
+    iconAlpha: Float = randomTint()
+//    iconAlpha: Float = remember(todo.id) { randomTint() }
 ) {
     Row(
         modifier = modifier
@@ -135,8 +138,8 @@ fun TodoRow(
     }
 }
 
-private fun randomTint(): Float {
-    return Random.nextFloat().coerceIn(0.3f, 0.9f)
+fun randomTint(): Float {
+    return Random.nextFloat().coerceIn(0.1f, 0.9f)
 }
 
 @Composable
@@ -246,7 +249,7 @@ fun PreviewTodoScreen() {
         TodoItem("Apply state", TodoIcon.Done),
         TodoItem("Build dynamic UIs", TodoIcon.Square)
     )
-    TodoScreen(items, null, {}, {}, {}, {}, {})
+    TodoScreen(items, null, {}, {}, {}, {}, {},{ randomTint()})
 }
 
 @Preview

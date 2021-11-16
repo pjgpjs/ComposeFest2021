@@ -36,4 +36,14 @@ class TodoViewModelTest {
         // after
         assertThat(viewModel.todoItems).isEqualTo(listOf(item2))
     }
+
+    @Test
+    fun getTint_repeat(){
+        val viewModel = TodoViewModel()
+        val item = generateRandomTodoItem()
+        val tintFirst = viewModel.getTint(item)
+        repeat(5){
+            assertThat(viewModel.getTint(item)).isEqualTo(tintFirst)
+        }
+    }
 }
