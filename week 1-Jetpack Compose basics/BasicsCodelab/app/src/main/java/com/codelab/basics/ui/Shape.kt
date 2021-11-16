@@ -14,23 +14,14 @@
  * limitations under the License.
  */
 
-buildscript {
-    ext {
-        compose_version = '1.0.5'
-    }
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31'
-    }
-}
+package com.codelab.basics.ui
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.Shapes
+import androidx.compose.ui.unit.dp
+
+val shapes = Shapes(
+    small = RoundedCornerShape(4.dp),
+    medium = RoundedCornerShape(8.dp),
+    large = RoundedCornerShape(0.dp)
+)
