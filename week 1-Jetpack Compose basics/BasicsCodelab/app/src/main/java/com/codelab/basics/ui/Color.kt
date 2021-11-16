@@ -14,23 +14,11 @@
  * limitations under the License.
  */
 
-buildscript {
-    ext {
-        compose_version = '1.0.5'
-    }
-    repositories {
-        google()
-        mavenCentral()
-    }
-    dependencies {
-        classpath 'com.android.tools.build:gradle:7.0.3'
-        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.31'
-    }
-}
+package com.codelab.basics.ui
 
-allprojects {
-    repositories {
-        google()
-        mavenCentral()
-    }
-}
+import androidx.compose.ui.graphics.Color
+
+val Navy = Color(0xFF073042)
+val Blue = Color(0xFF4285F4)
+val LightBlue = Color(0xFFD7EFFE)
+val Chartreuse = Color(0xFFEFF7CF)
