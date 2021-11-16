@@ -31,6 +31,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.codelabs.state.util.generateRandomTodoItem
+import java.util.*
 import kotlin.random.Random
 
 /**
@@ -156,7 +157,9 @@ fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
         onIconChange = setIcon,
         submit = submit,
         iconsVisible = iconsVisible
-    )
+    ){
+        TodoEditButton(onClick = submit, text = "Add",enabled = text.isNotBlank())
+    }
 }
 
 @Composable
@@ -166,7 +169,8 @@ fun TodoItemInput(
     icon: TodoIcon,
     onIconChange: (TodoIcon) -> Unit,
     submit: () -> Unit,
-    iconsVisible: Boolean
+    iconsVisible: Boolean,
+    buttonSlot:@Composable ()->Unit
 ) {
     Column {
         Row(
@@ -183,12 +187,8 @@ fun TodoItemInput(
                 onImeAction = submit
 
             )
-            TodoEditButton(
-                onClick = submit,
-                text = "Add",
-                modifier = Modifier.align(Alignment.CenterVertically),
-                enabled = text.isNotBlank()
-            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Box(Modifier.align(Alignment.CenterVertically)){buttonSlot()}
         }
         if (iconsVisible) {
             AnimatedIconRow(icon = icon, onIconChange = onIconChange, Modifier.padding(top = 8.dp))
@@ -210,9 +210,33 @@ fun TodoItemInlineEditor(
     icon = item.icon,
     onIconChange = { onEditItemChange(item.copy(icon = it)) },
     submit = onEditDone,
-    iconsVisible = true
+    iconsVisible = true,
+    buttonSlot = {
+        Row{
+            val shrinkButtons = Modifier.widthIn(20.dp)
+            TextButton(onClick = onEditDone,modifier = shrinkButtons) {
+                Text(
+                    text = "\uD83D\uDCBE", // floppy disk
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.width(30.dp)
+                )
+            }
+            TextButton(onClick = onRemoveItem, modifier = shrinkButtons) {
+                Text(
+                    text = "❌",
+                    textAlign = TextAlign.End,
+                    modifier = Modifier.width(30.dp)
+                )
+            }
+        }
+    }
 )
 
+@Preview
+@Composable
+fun PreviewTodoItemInlineEditor(){
+    TodoItemInlineEditor(generateRandomTodoItem(), {  },{},{} )
+}
 @Preview
 @Composable
 fun PreviewTodoScreen() {
