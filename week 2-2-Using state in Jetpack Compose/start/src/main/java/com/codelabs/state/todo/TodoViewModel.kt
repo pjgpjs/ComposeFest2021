@@ -24,17 +24,45 @@ import androidx.lifecycle.ViewModel
 
 class TodoViewModel : ViewModel() {
 
-    var todoItems = mutableStateListOf<TodoItem>()
-        private set
+    // private state
     private var currentEditPosition by mutableStateOf(-1)
 
+    // state: todoItems
+    var todoItems = mutableStateListOf<TodoItem>()
+        private set
+
+    // state
     val currentEditItem:TodoItem?
         get() = todoItems.getOrNull(currentEditPosition)
+
     fun addItem(item: TodoItem) {
         todoItems.add(item)
     }
 
     fun removeItem(item: TodoItem) {
         todoItems.remove(item)
+
     }
+
+    // event: onEditItemSelected
+    fun onEditItemSelected(item: TodoItem) {
+        currentEditPosition = todoItems.indexOf(item)
+        onEditDone() // don't keep the editor open when removing items
+    }
+
+    // event: onEditDone
+    fun onEditDone() {
+        currentEditPosition = -1
+    }
+
+    // event: onEditItemChange
+    fun onEditItemChange(item: TodoItem) {
+        val currentItem = requireNotNull(currentEditItem)
+        require(currentItem.id == item.id) {
+            "You can only change an item with the same id as currentEditItem"
+        }
+
+        todoItems[currentEditPosition] = item
+    }
+
 }
