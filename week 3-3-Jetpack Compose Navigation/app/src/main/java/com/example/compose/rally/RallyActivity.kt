@@ -69,7 +69,6 @@ fun RallyApp() {
         val currentScreen = RallyScreen.fromRoute(
             backstackEntry.value?.destination?.route
         )
-        val accountsName = Accounts.name
 
         Scaffold(
             topBar = {
