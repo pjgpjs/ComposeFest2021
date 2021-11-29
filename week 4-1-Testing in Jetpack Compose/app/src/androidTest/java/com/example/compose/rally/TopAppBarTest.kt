@@ -14,6 +14,7 @@ class TopAppBarTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
+
     @Test
     fun rallyTopAppBarTest_currentTabSelected() {
         val allScreens = RallyScreen.values().toList()
@@ -41,10 +42,15 @@ class TopAppBarTest {
                 currentScreen = RallyScreen.Accounts
             )
         }
-
-        composeTestRule.onRoot().printToLog("currentLabelExists")
+        composeTestRule.onRoot(useUnmergedTree = true).printToLog("currentLabelExists")
         composeTestRule
-            .onNodeWithContentDescription(RallyScreen.Bills.name)
+            .onNode(
+                hasText(RallyScreen.Accounts.name.uppercase(Locale.getDefault())) and
+                        hasParent(
+                            hasContentDescription(RallyScreen.Accounts.name)
+                        ),
+                useUnmergedTree = true
+            )
             .assertExists()
     }
 }
