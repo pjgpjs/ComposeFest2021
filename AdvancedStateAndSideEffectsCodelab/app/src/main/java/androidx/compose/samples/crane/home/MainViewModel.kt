@@ -19,6 +19,8 @@ package androidx.compose.samples.crane.home
 import androidx.compose.samples.crane.data.DestinationsRepository
 import androidx.compose.samples.crane.data.ExploreModel
 import androidx.compose.samples.crane.di.DefaultDispatcher
+import androidx.compose.ui.text.intl.Locale
+import androidx.compose.ui.text.toUpperCase
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -67,7 +69,7 @@ class MainViewModel @Inject constructor(
         viewModelScope.launch {
             val newDestinations = withContext(defaultDispatcher) {
                 destinationsRepository.destinations
-                    .filter { it.city.nameToDisplay.contains(newDestination) }
+                    .filter { it.city.nameToDisplay.toUpperCase(Locale.current).contains(newDestination.toUpperCase(Locale.current)) }
             }
             _suggestedDestinations.value = newDestinations
         }

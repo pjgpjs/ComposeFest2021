@@ -23,10 +23,7 @@ import androidx.compose.material.Scaffold
 import androidx.compose.material.rememberBackdropScaffoldState
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.runtime.*
-import androidx.compose.samples.crane.base.CraneDrawer
-import androidx.compose.samples.crane.base.CraneTabBar
-import androidx.compose.samples.crane.base.CraneTabs
-import androidx.compose.samples.crane.base.ExploreSection
+import androidx.compose.samples.crane.base.*
 import androidx.compose.samples.crane.data.ExploreModel
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
